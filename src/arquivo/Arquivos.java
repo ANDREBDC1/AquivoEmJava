@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +20,15 @@ public class Arquivos {
 
     private static File file;
     private static byte[] Arquivo;
+    private static int totalDeArquivos;
+
+    public static int getTotalDeArquivos() {
+        return totalDeArquivos;
+    }
+
+    public static void setTotalDeArquivos(int totalDeArquivos) {
+        Arquivos.totalDeArquivos = totalDeArquivos;
+    }
 
     public static byte[] getArquivo() {
         return Arquivo;
@@ -49,7 +58,7 @@ public class Arquivos {
             fis.close();
 
         } catch (IOException ex) {
-            throw new RuntimeException("Arquivo não encontrada!\n" + ex.getMessage());
+            throw new RuntimeException("Arquivo não encontrado!\n" + ex.getMessage());
         }
 
         return conteudoByte;
@@ -70,7 +79,7 @@ public class Arquivos {
 
     }
 
-    public static void compiarArquivos(String caminhoOrigem, String caminhoDestino) {
+    public static void compiarArquivosDeUmDiretorioEspecifco(String caminhoOrigem, String caminhoDestino) {
         try {
 
             if (caminhoDestino.trim().isEmpty() || caminhoOrigem.trim().isEmpty()) {
@@ -78,6 +87,10 @@ public class Arquivos {
             }
 
             File src = new File(caminhoOrigem);
+            
+            if(!src.exists()){
+                return;
+            }
 
             File[] files = src.listFiles();
 
@@ -86,13 +99,13 @@ public class Arquivos {
             }
 
             for (File f : files) {
-                
+
                 String fileName = f.getName();
-                 boolean isArquivoSalvo = salvaArquivo(caminhoDestino, fileName, coverterArquivoEmArrayDeByte(f));
-                if(isArquivoSalvo){
+                boolean isArquivoSalvo = salvaArquivo(caminhoDestino, fileName, coverterArquivoEmArrayDeByte(f));
+                if (isArquivoSalvo) {
                     deletarArquivo(f);
                 }
-               
+
             }
 
         } catch (IOException ex) {
@@ -102,12 +115,13 @@ public class Arquivos {
 
     public static boolean salvaArquivo(String caminhoDestino, String nomeDoArquivo, byte[] arquivo) {
 
-        if(caminhoDestino.trim().isEmpty() || nomeDoArquivo.trim().isEmpty() || arquivo == null)
+        if (caminhoDestino.trim().isEmpty() || nomeDoArquivo.trim().isEmpty() || arquivo == null) {
             return false;
-            
+        }
+
         File criarPasta = new File(caminhoDestino);
         FileOutputStream fos;
-        
+
         try {
             if (!criarPasta.exists()) { // testa se a pasta ja existe 
                 criarPasta.mkdir(); // criar pasta caso nao existe
@@ -123,6 +137,73 @@ public class Arquivos {
             return false;
         }
     }
+
+    public static ArrayList<File> buscaArquivos(File file, String extensao) {
+        try {
+            if(extensao.trim().isEmpty()){
+                throw new RuntimeException("Extensão não Informada!");
+            }
+            ArrayList<File> arrayFile = new ArrayList<>();
+            File diretorio = file;
+            if (!diretorio.exists()) {
+                throw new RuntimeException("Diretorio não econtrado!");
+            }
+
+            File files[] = diretorio.listFiles();
+     
+            for (File f : files) {
+
+                if (f.isDirectory()) {
+                    arrayFile.addAll(buscaArquivos(f, extensao));
+                } else if (f.getName().endsWith(extensao.toLowerCase())) {
+                    arrayFile.add(f);
+                }
+
+            }
+
+            setTotalDeArquivos(arrayFile.size());
+            return arrayFile;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
     
+    public static void moverArquivos (File fileBuscar, File fileDestino, String extensao){
+        try {
+             ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
+             
+             if(arquivos.size() <= 0)
+                 return;
+             
+             for(File f : arquivos){
+                 if(salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f))){
+                     deletarArquivo(f);
+                 }
+             }
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+       
+    }
+    
+     public static void copiarArquivos (File fileBuscar, File fileDestino, String extensao){
+        try {
+             
+             ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
+             
+             if(arquivos.size() <= 0)
+                 return;
+             
+             for(File f : arquivos){
+                 
+                 salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f));
+             }
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+       
+    }
 
 }
