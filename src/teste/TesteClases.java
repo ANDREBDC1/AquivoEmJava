@@ -5,6 +5,9 @@
  */
 package teste;
 
+import arquivo.Arquivos;
+import java.io.File;
+
 /**
  *
  * @author Andre
@@ -12,7 +15,20 @@ package teste;
 public class TesteClases {
 
     public static void main(String[] args) {
-        arquivo.Arquivos.compiarArquivo("C:\\Origem","C:\\Destino");
+        arquivo.Arquivos.compiarArquivos("C:\\Origem","C:\\Destino");
+//        File arquivo = new File("C:\\Destino/botaoSair.png");
+//        String destino = "C://Teste";
+//       
+//        boolean isArquivoSalso = Arquivos.salvaArquivo(destino, 
+//                arquivo.getName(), 
+//                Arquivos.coverterArquivoEmArrayDeByte(arquivo));
+//        
+//        if(isArquivoSalso){
+//            System.out.println("Arquivo foi salvo");
+//            Arquivos.deletarArquivo(arquivo);
+//        }else{
+//            System.out.println("Arquivo não foi salvo");
+//        }
     }
 
 }

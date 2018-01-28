@@ -7,6 +7,7 @@ package arquivo;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,49 +62,69 @@ public class Arquivos {
 
     }
 
-    public static void compiarArquivo(String caminhoOrigem, String caminhoDestino) {
+    public static boolean deletarArquivo(File file) {
+        if (file == null) {
+            return false;
+        }
+        File deletar = file;
+        return deletar.delete();
+
+    }
+
+    public static void compiarArquivos(String caminhoOrigem, String caminhoDestino) {
         try {
 
-            if (caminhoDestino.isEmpty() || caminhoOrigem.isEmpty()) {
-                return;
+            if (caminhoDestino.trim().isEmpty() || caminhoOrigem.trim().isEmpty()) {
+                throw new IOException("Caminho de Origem e destino não pode ser vasio!");
             }
 
             File src = new File(caminhoOrigem);
 
-            String dstPath = caminhoDestino;
-            if(!dstPath.substring(dstPath.length() -1).contains("/"))
-                dstPath += "/";
-            File dst;
-            File destino = new File(caminhoDestino);
-            
-            if(!destino.exists())
-                destino.mkdir();
-            
             File[] files = src.listFiles();
-            
-            if(files  == null || (files.length <= 0))
+
+            if (files == null || (files.length <= 0)) {
                 return;
+            }
 
             for (File f : files) {
-                String fileName = f.getName();
-                dst = new File(dstPath + fileName);
-                InputStream in = new FileInputStream(f);
-                OutputStream out = new FileOutputStream(dst);
                 
-                    byte[] buf = new byte[1024];
-                    int len;
-                    while ((len = in.read(buf)) > 0) {
-                        out.write(buf, 0, len);
-                    }
-
-                in.close();
-                out.close();
-                f.delete();
+                String fileName = f.getName();
+                 boolean isArquivoSalvo = salvaArquivo(caminhoDestino, fileName, coverterArquivoEmArrayDeByte(f));
+                if(isArquivoSalvo){
+                    deletarArquivo(f);
+                }
+               
             }
 
         } catch (IOException ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
+
+    public static boolean salvaArquivo(String caminhoDestino, String nomeDoArquivo, byte[] arquivo) {
+
+        if(caminhoDestino.trim().isEmpty() || nomeDoArquivo.trim().isEmpty() || arquivo == null)
+            return false;
+            
+        File criarPasta = new File(caminhoDestino);
+        FileOutputStream fos;
+        
+        try {
+            if (!criarPasta.exists()) { // testa se a pasta ja existe 
+                criarPasta.mkdir(); // criar pasta caso nao existe
+            }
+
+            fos = new FileOutputStream(caminhoDestino + "/" + nomeDoArquivo);
+            fos.write(arquivo);
+            return true;
+
+        } catch (FileNotFoundException ex) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        }
+
+    }
+    
 
 }
