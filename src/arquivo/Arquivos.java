@@ -177,10 +177,11 @@ public class Arquivos {
     }
 
     private static ArrayList<File> buscaArquivosSubPasta(File file, String extensao) {
+         ArrayList<File> arrayFile = new ArrayList<>();
         try {
-
-            ArrayList<File> arrayFile = new ArrayList<>();
-
+            if(file == null){
+                return arrayFile;
+            }
             for (File ff : file.listFiles()) {
 
                 if (ff.isDirectory()) {
@@ -189,13 +190,10 @@ public class Arquivos {
                     arrayFile.add(ff);
                 }
 
-            }
+            }     
 
+        }finally{
             return arrayFile;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            throw new RuntimeException(ex.getMessage());
-
         }
     }
 

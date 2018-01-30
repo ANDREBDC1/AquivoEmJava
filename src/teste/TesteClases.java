@@ -55,11 +55,11 @@ public class TesteClases {
     }
     
     public static void usarBuscaDeArquivo(){
-        File file = new File("C:\\Users");
+        File file = new File("C:\\Users\\developer");
         for (File f : file.listFiles()) {
             
             System.out.println(f.getName());
-            System.out.println("---\n"+f.mkdirs());
+            System.out.println("---\n"+f.canWrite());
             
         }
         

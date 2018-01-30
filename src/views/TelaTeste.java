@@ -180,7 +180,7 @@ public class TelaTeste extends javax.swing.JFrame {
         // TODO add your handling code here:
         btBusca.setEnabled(false);
         int tamMax = extensoes.getExtensoesFotos().size() + extensoes.getExtensoesMusica().size() + extensoes.getExtensoesVideos().size();
-       
+       tamMax = 3;
               
         jProgressBar1.setMaximum(0);
         jProgressBar1.setMaximum(tamMax);
@@ -188,23 +188,23 @@ public class TelaTeste extends javax.swing.JFrame {
               int  cont = 0;
             public void run() {
 
-                for (String ex : extensoes.getExtensoesMusica()) {
-                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
-                    cont++;
-                    jProgressBar1.setValue(cont);
-                }
                 
-                for (String ex : extensoes.getExtensoesFotos()) {
-                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
+                    Arquivos.moverArquivoTipoMusica(new File("C:\\Users\\developer"), new File("c:\\Destino"));
                     cont++;
                     jProgressBar1.setValue(cont);
-                }
                 
-                for (String ex : extensoes.getExtensoesVideos()) {
-                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
+                
+               
+                    Arquivos.moverArquivoTipoFotos(new File("C:\\Users\\developer"), new File("c:\\Destino"));
                     cont++;
                     jProgressBar1.setValue(cont);
-                }
+               
+                
+              
+                   Arquivos.moverArquivoTipoVideo(new File("C:\\Users\\developer"), new File("c:\\Destino"));
+                    cont++;
+                    jProgressBar1.setValue(cont);
+               
             }
 
         }.start();
