@@ -39,7 +39,8 @@ public class TesteClases {
 //         
 //         Arquivos.moverArquivos(fileBusca, FileDestino, extensao);
          
-         buscarAquivoPelaExtensao();
+        // buscarAquivoPelaExtensao();
+        usarBuscaDeArquivo();
          
     }
     
@@ -54,7 +55,16 @@ public class TesteClases {
     }
     
     public static void usarBuscaDeArquivo(){
-        File file = new File("C:/Teste");
+        File file = new File("C:\\Users");
+        for (File f : file.listFiles()) {
+            
+            System.out.println(f.getName());
+            System.out.println("---\n"+f.mkdirs());
+            
+        }
+        
+         System.out.println("--------------------------------------------");
+  
         String extensao =".png";
         ArrayList<File> arquivos = Arquivos.buscaArquivos(file, extensao);
         
@@ -66,7 +76,7 @@ public class TesteClases {
     }
     
      public static void salvarMoverArquivosParaUmasPasta(){
-        File file = new File("C:/Teste");
+        File file = new File("C:Teste");
         String extensao =".png";
         ArrayList<File> arquivos = Arquivos.buscaArquivos(file, extensao);
         

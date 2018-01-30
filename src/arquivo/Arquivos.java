@@ -31,7 +31,7 @@ public class Arquivos {
     public static int getTotalDeArquivos() {
         return totalDeArquivos;
     }
-    
+
     public static byte[] getArquivo() {
         return Arquivo;
     }
@@ -89,8 +89,8 @@ public class Arquivos {
             }
 
             File src = new File(caminhoOrigem);
-            
-            if(!src.exists()){
+
+            if (!src.exists()) {
                 return;
             }
 
@@ -142,23 +142,29 @@ public class Arquivos {
 
     public static ArrayList<File> buscaArquivos(File file, String extensao) {
         try {
-            if(extensao.trim().isEmpty()){
+            if (extensao.trim().isEmpty()) {
                 throw new RuntimeException("Extensão não Informada!");
             }
             ArrayList<File> arrayFile = new ArrayList<>();
             File diretorio = file;
-            if (!diretorio.exists()) {
-                throw new RuntimeException("Diretorio não econtrado!");
-            }
+            ArrayList<File> files;
 
-            File files[] = diretorio.listFiles();
-     
-            for (File f : files) {
+            for (File f : diretorio.listFiles()) {
 
-                if (f.isDirectory()) {
-                    arrayFile.addAll(buscaArquivos(f, extensao));
-                } else if (f.getName().endsWith(extensao.toLowerCase())) {
-                    arrayFile.add(f);
+                
+                if (!f.getName().equalsIgnoreCase("Meus Vídeos")
+                        && !f.getName().equalsIgnoreCase("Minhas Imagens")
+                        && !f.getName().equalsIgnoreCase("Minhas Músicas")) {
+
+                    if (f.isDirectory()) {
+                        files = buscaArquivosSubPasta(f, extensao.toLowerCase());
+                        if (!files.isEmpty()) {
+                            arrayFile.addAll(files);
+                        }
+
+                    } else if (f.getName().endsWith(extensao.toLowerCase())) {
+                        arrayFile.add(f);
+                    }
                 }
 
             }
@@ -169,60 +175,85 @@ public class Arquivos {
             throw new RuntimeException(ex.getMessage());
         }
     }
-    
-    public static void moverArquivos (File fileBuscar, File fileDestino, String extensao){
+
+    private static ArrayList<File> buscaArquivosSubPasta(File file, String extensao) {
         try {
-             ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
-             
-             if(arquivos.size() <= 0)
-                 return;
-             
-             for(File f : arquivos){
-                 if(salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f))){
-                     deletarArquivo(f);
-                 }
-             }
-            
+
+            ArrayList<File> arrayFile = new ArrayList<>();
+
+            for (File ff : file.listFiles()) {
+
+                if (ff.isDirectory()) {
+                    arrayFile.addAll(buscaArquivosSubPasta(ff, extensao));
+                } else if (ff.getName().endsWith(extensao.toLowerCase())) {
+                    arrayFile.add(ff);
+                }
+
+            }
+
+            return arrayFile;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
+
+        }
+    }
+
+    public static void moverArquivos(File fileBuscar, File fileDestino, String extensao) {
+        try {
+            ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
+
+            if (arquivos.size() <= 0) {
+                return;
+            }
+
+            for (File f : arquivos) {
+                if (salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f))) {
+                    deletarArquivo(f);
+                }
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-       
+
     }
-    
-     public static void copiarArquivos (File fileBuscar, File fileDestino, String extensao){
+
+    public static void copiarArquivos(File fileBuscar, File fileDestino, String extensao) {
         try {
-             
-             ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
-             
-             if(arquivos.size() <= 0)
-                 return;
-             
-             for(File f : arquivos){
-                 
-                 salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f));
-             }
-            
+
+            ArrayList<File> arquivos = buscaArquivos(fileBuscar, extensao);
+
+            if (arquivos.size() <= 0) {
+                return;
+            }
+
+            for (File f : arquivos) {
+
+                salvaArquivo(fileDestino.getPath(), f.getName(), coverterArquivoEmArrayDeByte(f));
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-       
+
     }
-     
-    public static void moverArquivoTipoFotos(File diretorioDeBusca, File diretorioDestino){
+
+    public static void moverArquivoTipoFotos(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         for (String ex : extensoes.getExtensoesFotos()) {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);
         }
     }
-    
-    public static void moverArquivoTipoMusica(File diretorioDeBusca, File diretorioDestino){
+
+    public static void moverArquivoTipoMusica(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         for (String ex : extensoes.getExtensoesMusica()) {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);
         }
     }
-    
-    public static void moverArquivoTipoVideo(File diretorioDeBusca, File diretorioDestino){
+
+    public static void moverArquivoTipoVideo(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         for (String ex : extensoes.getExtensoesVideos()) {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);

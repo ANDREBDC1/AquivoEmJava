@@ -42,9 +42,20 @@ public class ExtensaoArquivos {
     public void setExtensoesVideos(ArrayList<String> extensoesVideos) {
         this.extensoesVideos = extensoesVideos;
     }
+
+    public ArrayList<String> getExtensoesTexto() {
+        return extensoesTexto;
+    }
+
+    public void setExtensoesTexto(ArrayList<String> extensoesTexto) {
+        this.extensoesTexto = extensoesTexto;
+    }
+    
+    
     private ArrayList<String> extensoesMusica;
     private ArrayList<String> extensoesVideos;
     private ArrayList<String> extensoesFotos;
+    private ArrayList<String> extensoesTexto;
     
     public ExtensaoArquivos(){
         preencherExtencoes();
@@ -55,14 +66,17 @@ public class ExtensaoArquivos {
         ArrayList<String> extensaoFotos = new ArrayList<>();
         ArrayList<String> extensaoMusica = new ArrayList<>();
         ArrayList<String> extensaoVideos = new ArrayList<>();
+        ArrayList<String> extensaoTexto = new ArrayList<>();
         
         extensaoFotos.addAll(Arrays.asList(".png", ".jpg", ".JPEG", ".GIF"));
         extensaoMusica.addAll(Arrays.asList(".mp3", ".opus"));
         extensaoVideos.addAll(Arrays.asList(".mp4", ".av"));
+        extensaoTexto.addAll(Arrays.asList(".txt", ".doc"));
         
         setExtensoesFotos(extensaoFotos);
         setExtensoesMusica(extensaoMusica);
         setExtensoesVideos(extensaoVideos);
+        setExtensoesTexto(extensaoTexto);
     }
 
 }

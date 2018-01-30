@@ -6,6 +6,8 @@
 package views;
 
 import arquivo.Arquivos;
+import static arquivo.Arquivos.moverArquivos;
+import extensao_arquivos.ExtensaoArquivos;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,6 +23,8 @@ public class TelaTeste extends javax.swing.JFrame {
     private byte[] Arquivo;
     private File file;
     private Arquivos arquivos;
+    private ExtensaoArquivos extensoes = new ExtensaoArquivos();
+
     /**
      * Creates new form TelaTeste
      */
@@ -46,6 +50,9 @@ public class TelaTeste extends javax.swing.JFrame {
         btDeletarArquivo = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         lbNmeArquivo = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        btBusca = new javax.swing.JButton();
+        cbLocal = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +83,15 @@ public class TelaTeste extends javax.swing.JFrame {
 
         jLabel3.setText("Nome");
 
+        btBusca.setText("Busca...");
+        btBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscaActionPerformed(evt);
+            }
+        });
+
+        cbLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C:\\\\Teste" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,26 +121,44 @@ public class TelaTeste extends javax.swing.JFrame {
                                 .addComponent(lbOrigem1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(lbDestino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(cbLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btSecionarArquivo)
-                    .addComponent(jLabel1)
-                    .addComponent(lbOrigem1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbOrigem1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btSecionarArquivo)
+                        .addComponent(jLabel1)))
                 .addGap(68, 68, 68)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btMoverArquivo)
-                    .addComponent(jLabel2)
-                    .addComponent(lbDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btMoverArquivo)
+                        .addComponent(jLabel2)))
                 .addGap(75, 75, 75)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbNmeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btDeletarArquivo)
+                        .addComponent(jLabel3)))
+                .addGap(18, 18, 18)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btDeletarArquivo)
-                    .addComponent(jLabel3)
-                    .addComponent(lbNmeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(124, Short.MAX_VALUE))
+                    .addComponent(btBusca)
+                    .addComponent(cbLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -142,30 +176,67 @@ public class TelaTeste extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btDeletarArquivoActionPerformed
 
-    private void abrirChoose(){
+    private void btBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscaActionPerformed
+        // TODO add your handling code here:
+        btBusca.setEnabled(false);
+        int tamMax = extensoes.getExtensoesFotos().size() + extensoes.getExtensoesMusica().size() + extensoes.getExtensoesVideos().size();
+       
+              
+        jProgressBar1.setMaximum(0);
+        jProgressBar1.setMaximum(tamMax);
+        new Thread() {
+              int  cont = 0;
+            public void run() {
+
+                for (String ex : extensoes.getExtensoesMusica()) {
+                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
+                    cont++;
+                    jProgressBar1.setValue(cont);
+                }
+                
+                for (String ex : extensoes.getExtensoesFotos()) {
+                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
+                    cont++;
+                    jProgressBar1.setValue(cont);
+                }
+                
+                for (String ex : extensoes.getExtensoesVideos()) {
+                    moverArquivos(new File("c:"), new File("c:\\Destino"), ex);
+                    cont++;
+                    jProgressBar1.setValue(cont);
+                }
+            }
+
+        }.start();
+
+        btBusca.setEnabled(true);
+
+    }//GEN-LAST:event_btBuscaActionPerformed
+
+    private void abrirChoose() {
         try {
-         JFileChooser abrirArquivo = new JFileChooser();
-         abrirArquivo.setDialogTitle("Procura Arquivo");
-        //FileNameExtensionFilter extecaoPermitida = new FileNameExtensionFilter("Imagem", "jpg"); // permitir somente as esteções jpg e png
-        //abrirArquivo.setFileFilter(extecaoPermitida);
-        int foiSelecionadoArquivo= abrirArquivo.showOpenDialog(null);
-        if (foiSelecionadoArquivo != JFileChooser.APPROVE_OPTION) {
-            MensagemUsuario.mensagemAviso("Você não selecionou nem uma Imagem!");
-            return;
-        }
-        
-        File pegaArquivo = abrirArquivo.getSelectedFile();
-        Arquivo = Arquivos.coverterArquivoEmArrayDeByte(pegaArquivo);
-        
-        lbOrigem1.setText(pegaArquivo.getAbsolutePath());
-        lbNmeArquivo.setText(pegaArquivo.getName());
-   
+            JFileChooser abrirArquivo = new JFileChooser();
+            abrirArquivo.setDialogTitle("Procura Arquivo");
+            //FileNameExtensionFilter extecaoPermitida = new FileNameExtensionFilter("Imagem", "jpg"); // permitir somente as esteções jpg e png
+            //abrirArquivo.setFileFilter(extecaoPermitida);
+            int foiSelecionadoArquivo = abrirArquivo.showOpenDialog(null);
+            if (foiSelecionadoArquivo != JFileChooser.APPROVE_OPTION) {
+                MensagemUsuario.mensagemAviso("Você não selecionou nem uma Imagem!");
+                return;
+            }
+
+            File pegaArquivo = abrirArquivo.getSelectedFile();
+            Arquivo = Arquivos.coverterArquivoEmArrayDeByte(pegaArquivo);
+
+            lbOrigem1.setText(pegaArquivo.getAbsolutePath());
+            lbNmeArquivo.setText(pegaArquivo.getName());
+
         } catch (Exception e) {
             MensagemUsuario.mensagemErro(e.getMessage());
         }
-        
-       
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -202,12 +273,15 @@ public class TelaTeste extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBusca;
     private javax.swing.JButton btDeletarArquivo;
     private javax.swing.JButton btMoverArquivo;
     private javax.swing.JToggleButton btSecionarArquivo;
+    private javax.swing.JComboBox<String> cbLocal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel lbDestino;
     private javax.swing.JLabel lbNmeArquivo;
     private javax.swing.JLabel lbOrigem1;
