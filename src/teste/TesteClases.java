@@ -49,7 +49,7 @@ public class TesteClases {
     public static void salvarArquivo(){
         
         String caminho = "C:\\Teste/teste.avi";
-        Arquivos.salvaArquivo(new File(caminho) , new File("C:\\destino/andre."));
+       
     } 
     
 //    public static void salvarArquivo(){
