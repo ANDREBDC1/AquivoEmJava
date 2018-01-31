@@ -40,9 +40,23 @@ public class TesteClases {
 //         Arquivos.moverArquivos(fileBusca, FileDestino, extensao);
          
         // buscarAquivoPelaExtensao();
-        usarBuscaDeArquivo();
-         
+        //usarBuscaDeArquivo();
+        
+        //salvarArquivo();
+         salvarArquivo();
     }
+    
+    public static void salvarArquivo(){
+        
+        String caminho = "C:\\Teste/teste.avi";
+        Arquivos.salvaArquivo(new File(caminho) , new File("C:\\destino/andre."));
+    } 
+    
+//    public static void salvarArquivo(){
+//       
+//               
+//        Arquivos.copiarArquivoTipoFotos(new Arquivos("C:\\Teste"), new Arquivos("C:\\Destino\\Fotos"));
+//    }
     
     public static void buscarAquivoPelaExtensao(){
         ExtensaoArquivos extesoes = new ExtensaoArquivos();
@@ -55,17 +69,14 @@ public class TesteClases {
     }
     
     public static void usarBuscaDeArquivo(){
-        File file = new File("C:\\Users\\developer");
+        File file = new File("C:\\Teste");
         for (File f : file.listFiles()) {
-            
-            System.out.println(f.getName());
-            System.out.println("---\n"+f.canWrite());
-            
+
         }
         
          System.out.println("--------------------------------------------");
   
-        String extensao =".png";
+        String extensao =".PNG";
         ArrayList<File> arquivos = Arquivos.buscaArquivos(file, extensao);
         
         System.out.println("Total de arquivos encontrados: "  +Arquivos.getTotalDeArquivos());

@@ -10,14 +10,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Andre
  */
-public class Arquivos {
+public class Arquivos extends File {
 
     private static File file;
     private static byte[] Arquivo;
@@ -146,7 +150,7 @@ public class Arquivos {
                 throw new RuntimeException("Extensão não Informada!");
             }
             ArrayList<File> arrayFile = new ArrayList<>();
-            
+
             ArrayList<File> files;
 
             for (File f : file.listFiles()) {
@@ -157,7 +161,7 @@ public class Arquivos {
                         arrayFile.addAll(files);
                     }
 
-                } else if (f.getName().endsWith(extensao.toLowerCase())) {
+                } else if (f.getName().toLowerCase().endsWith(extensao.toLowerCase())) {
                     arrayFile.add(f);
                 }
             }
@@ -179,7 +183,7 @@ public class Arquivos {
 
                 if (ff.isDirectory()) {
                     arrayFile.addAll(buscaArquivosSubPasta(ff, extensao));
-                } else if (ff.getName().endsWith(extensao.toLowerCase())) {
+                } else if (ff.getName().toLowerCase().endsWith(extensao.toLowerCase())) {
                     arrayFile.add(ff);
                 }
 
@@ -228,36 +232,36 @@ public class Arquivos {
         }
 
     }
-    
+
     public static void copiarArquivoTipoTexto(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         extensoes.getExtensoesTexto().stream().forEach((ex) -> {
             copiarArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
     }
-    
-     public static void moverArquivoTipoTexto(File diretorioDeBusca, File diretorioDestino) {
+
+    public static void moverArquivoTipoTexto(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         extensoes.getExtensoesTexto().stream().forEach((ex) -> {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
     }
-    
-     public static void copiarArquivoTipoFotos(File diretorioDeBusca, File diretorioDestino) {
+
+    public static void copiarArquivoTipoFotos(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         extensoes.getExtensoesFotos().stream().forEach((ex) -> {
             copiarArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
     }
-     
-     public static void copiarArquivoTipoMusica(File diretorioDeBusca, File diretorioDestino) {
+
+    public static void copiarArquivoTipoMusica(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         extensoes.getExtensoesMusica().stream().forEach((ex) -> {
             copiarArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
     }
-     
-     public static void copiarArquivoTipoVideo(File diretorioDeBusca, File diretorioDestino) {
+
+    public static void copiarArquivoTipoVideo(File diretorioDeBusca, File diretorioDestino) {
         extensoes = new ExtensaoArquivos();
         extensoes.getExtensoesVideos().stream().forEach((ex) -> {
             copiarArquivos(diretorioDeBusca, diretorioDestino, ex);
@@ -283,6 +287,10 @@ public class Arquivos {
         extensoes.getExtensoesVideos().stream().forEach((ex) -> {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
+    }
+
+    public Arquivos(String string) {
+        super(string);
     }
 
 }

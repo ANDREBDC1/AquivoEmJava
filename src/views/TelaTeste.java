@@ -189,7 +189,7 @@ public class TelaTeste extends javax.swing.JFrame {
             public void run() {
 
                 
-                    Arquivos.moverArquivoTipoMusica(new File("C:\\Users\\developer"), new File("c:\\Destino"));
+                    Arquivos.moverArquivoTipoMusica(new File("C:\\Users\\developer"), new File("c:\\Destino\\fOTOS"));
                     cont++;
                     jProgressBar1.setValue(cont);
                 
