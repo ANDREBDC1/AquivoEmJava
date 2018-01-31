@@ -57,7 +57,7 @@ public class TesteClases {
         
     }
     public static void criarPasta(){
-        Arquivos.vreficarDiretorioExistente(new File("C:\\destino\\teste"));
+        
     }
     
 //    public static void salvarArquivo(){
