@@ -10,12 +10,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -288,7 +285,14 @@ public class Arquivos extends File {
             moverArquivos(diretorioDeBusca, diretorioDestino, ex);
         });
     }
-
+    
+    public static void criarDiretorio(File file){
+        
+        if(!file.exists())
+            file.mkdirs();
+    }
+    
+    
     public Arquivos(String string) {
         super(string);
     }

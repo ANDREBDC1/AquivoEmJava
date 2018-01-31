@@ -80,7 +80,7 @@ public class ExtensaoArquivos {
         
         extensaoFotos.addAll(Arrays.asList(".png", ".jpg", ".JPEG", ".GIF"));
         extensaoMusica.addAll(Arrays.asList(".mp3", ".opus"));
-        extensaoVideos.addAll(Arrays.asList(".mp4", ".av",".WMA"));
+        extensaoVideos.addAll(Arrays.asList(".mp4",".WMA"));
         extensaoTexto.addAll(Arrays.asList(".txt", ".doc",".PDF"));
         extensaoCompactado.addAll(Arrays.asList(".ZIP", ".RAR",".7z"));
         

@@ -43,7 +43,8 @@ public class TesteClases {
         //usarBuscaDeArquivo();
         
         //salvarArquivo();
-         salvarArquivo();
+         //salvarArquivo();
+         criarPasta();
     }
     
     public static void salvarArquivo(){
@@ -51,6 +52,13 @@ public class TesteClases {
         String caminho = "C:\\Teste/teste.avi";
        
     } 
+    
+    public void testMethod() {
+        
+    }
+    public static void criarPasta(){
+        Arquivos.vreficarDiretorioExistente(new File("C:\\destino\\teste"));
+    }
     
 //    public static void salvarArquivo(){
 //       
