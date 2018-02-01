@@ -6,6 +6,7 @@
 package arquivo;
 
 import extensao_arquivos.ExtensaoArquivos;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -48,11 +49,34 @@ public class Arquivos extends File {
     public static void setFile(File file) {
         Arquivos.file = file;
     }
+    
+    public  static byte[] loadBytes(File file) {
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			ByteArrayOutputStream byteArrayStream/* buffer */= new ByteArrayOutputStream();
+			int bytesread = 0;
+			byte[] tbuff = null;
+			while ((bytesread = in.read(tbuff)) != -1) {
+				byteArrayStream.write(tbuff, 0, bytesread);
+			}
+			return byteArrayStream.toByteArray();
+		} catch (IOException e) {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e2) {
+				}
+			}
+			return null;
+		}
+	}
 
     public static byte[] coverterArquivoEmArrayDeByte(File file) {
         FileInputStream fis;
-
-        byte[] conteudoByte = new byte[(int) file.length()];
+        long tam = file.length();
+        int  tamanho  = (int) tam;
+        byte[] conteudoByte = new byte[999999999];
 
         try {
 
@@ -154,7 +178,7 @@ public class Arquivos extends File {
 
                 if (f.isDirectory()) {
                     files = buscaArquivosSubPasta(f, extensao.toLowerCase());
-                    if (!files.isEmpty()) {
+                    if (!files.isEmpty() && !file.isHidden()) {
                         arrayFile.addAll(files);
                     }
 
@@ -177,8 +201,8 @@ public class Arquivos extends File {
                 return arrayFile;
             }
             for (File ff : file.listFiles()) {
-
-                if (ff.isDirectory()) {
+                // verificar se file e um diretorio e se não e um arquivo ocuto
+                if (ff.isDirectory() && !file.isHidden()) {
                     arrayFile.addAll(buscaArquivosSubPasta(ff, extensao));
                 } else if (ff.getName().toLowerCase().endsWith(extensao.toLowerCase())) {
                     arrayFile.add(ff);

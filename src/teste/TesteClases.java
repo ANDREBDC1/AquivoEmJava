@@ -6,6 +6,7 @@
 package teste;
 
 import arquivo.Arquivos;
+import static arquivo.Arquivos.buscaArquivos;
 import extensao_arquivos.ExtensaoArquivos;
 import java.io.File;
 import java.util.ArrayList;
@@ -44,7 +45,22 @@ public class TesteClases {
         
         //salvarArquivo();
          //salvarArquivo();
-         criarPasta();
+         //criarPasta();
+         //usarBuscaDeArquivo();
+         usarConverterArrayDeBytes();
+    }
+    public static void usarConverterArrayDeBytes (){
+        
+        File file = new  File("C:\\Teste");
+        String extensao = ".mkv";
+       
+        ArrayList<File> arquivos = buscaArquivos(file, extensao);
+       
+        arquivos.stream().forEach((f) -> {
+            
+            Arquivos.salvaArquivo("C:\\Destino", "teste.mkv", Arquivos.loadBytes(f));
+            
+        });
     }
     
     public static void salvarArquivo(){
@@ -77,8 +93,10 @@ public class TesteClases {
     }
     
     public static void usarBuscaDeArquivo(){
-        File file = new File("C:\\Teste");
+        File file = new File("C:\\Users\\andre");
         for (File f : file.listFiles()) {
+            
+            System.out.println("\nNome do arquivo: " + f.getName());
 
         }
         
