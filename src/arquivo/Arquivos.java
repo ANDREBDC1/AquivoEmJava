@@ -24,8 +24,7 @@ public class Arquivos extends File {
     private static File file;
     private static byte[] Arquivo;
     private static int totalDeArquivos;
-    private static int tamMaximoArquivo = 999999999;
-
+  
     private static void setTotalDeArquivos(int totalDeArquivos) {
         Arquivos.totalDeArquivos = totalDeArquivos;
     }
@@ -54,7 +53,7 @@ public class Arquivos extends File {
     public static byte[] coverterArquivoEmArrayDeByte(File file) {
         FileInputStream fis;
 
-        byte[] conteudoByte = new byte[tamMaximoArquivo];
+        byte[] conteudoByte = new byte[(int) file.length()];
 
         try {
 
@@ -295,8 +294,7 @@ public class Arquivos extends File {
         if(!file.exists())
             file.mkdirs();
     }
-    
-    
+ 
     public Arquivos(String string) {
         super(string);
     }
