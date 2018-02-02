@@ -188,20 +188,20 @@ public class TelaTeste extends javax.swing.JFrame {
               int  cont = 0;
             public void run() {
 
-                
-                    Arquivos.copiarArquivoTipoMusica(new File("C:\\Users\\Andre"), new File("c:\\Destino\\fOTOS"));
+                    Arquivos.criarDiretorio(new File("C:\\Salva"));
+                    Arquivos.copiarArquivoTipoMusica(new File("C:\\Users\\Andre"), new File("c:\\Salva\\Musica"));
                     cont++;
                     jProgressBar1.setValue(cont);
                 
                 
                
-                    Arquivos.copiarArquivoTipoFotos(new Arquivos("C:\\Users\\Andre"), new Arquivos("c:\\Destino"));
+                    Arquivos.copiarArquivoTipoFotos(new Arquivos("C:\\Users\\Andre"), new Arquivos("c:\\Salva\\Fotos"));
                     cont++;
                     jProgressBar1.setValue(cont);
                
                 
               
-                   Arquivos.copiarArquivoTipoVideo(new Arquivos("C:\\Users\\Andre"), new Arquivos("c:\\Destino"));
+                   Arquivos.copiarArquivoTipoVideo(new Arquivos("C:\\Users\\Andre"), new Arquivos("c:\\Salva\\Video"));
                     cont++;
                     jProgressBar1.setValue(cont);
                

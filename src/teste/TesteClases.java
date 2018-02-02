@@ -6,6 +6,7 @@
 package teste;
 
 import arquivo.Arquivos;
+import static arquivo.Arquivos.buscaArquivos;
 import extensao_arquivos.ExtensaoArquivos;
 import java.io.File;
 import java.util.ArrayList;
@@ -43,12 +44,31 @@ public class TesteClases {
        // usarBuscaDeArquivo();
         
         //salvarArquivo();
-        salvarArquivo();
+
          //criarPasta();
     }
     
     public static void testeBuscaArquivo(){
        
+
+         //salvarArquivo();
+         //criarPasta();
+         //usarBuscaDeArquivo();
+         usarConverterArrayDeBytes();
+    }
+    public static void usarConverterArrayDeBytes (){
+        
+        File file = new  File("C:\\Teste");
+        String extensao = ".mkv";
+       
+        ArrayList<File> arquivos = buscaArquivos(file, extensao);
+       
+        arquivos.stream().forEach((f) -> {
+            
+           
+            
+        });
+
     }
     
     public static void salvarArquivo(){
@@ -62,7 +82,7 @@ public class TesteClases {
         
     }
     public static void criarPasta(){
-       
+
     }
     
 //    public static void salvarArquivo(){
@@ -81,40 +101,9 @@ public class TesteClases {
         
     }
     
-    public static void usarBuscaDeArquivo(){
-        File file = new File("C:\\Users\\Andre\\Documents");
-        for (File f : file.listFiles()) {            
-            System.out.println("\nNome do arquivo: " + f.getName()); 
-        }
-        
-         System.out.println("--------------------------------------------");
   
-        String extensao =".PNG";
-        ArrayList<File> arquivos = Arquivos.buscaArquivos(file, extensao);
-        
-        System.out.println("Total de arquivos encontrados: "  +Arquivos.getTotalDeArquivos());
-        
-        for (File f : arquivos) {  
-            System.out.println("\nNome do arquivo: " + f.getName());     
-        }
-    }
     
-     public static void salvarMoverArquivosParaUmasPasta(){
-        File file = new File("C:Teste");
-        String extensao =".png";
-        ArrayList<File> arquivos = Arquivos.buscaArquivos(file, extensao);
-        
-        System.out.println("Total de arquivos encontrados: "  +Arquivos.getTotalDeArquivos());
-        
-        for (File f : arquivos) {  
-            boolean isSalvarArquivo = Arquivos.salvaArquivo("c:\\PastaTeste", 
-                    f.getName(), 
-                    Arquivos.coverterArquivoEmArrayDeByte(f));
-            
-            if(isSalvarArquivo){
-                Arquivos.deletarArquivo(f);
-            }
-        }
     }
 
-}
+
+
