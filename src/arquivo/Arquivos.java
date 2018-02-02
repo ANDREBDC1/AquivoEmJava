@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+
 /**
  *
  * @author Andre
@@ -23,6 +24,7 @@ public class Arquivos extends File {
     private static File file;
     private static byte[] Arquivo;
     private static int totalDeArquivos;
+    private static int tamMaximoArquivo = 999999999;
 
     private static void setTotalDeArquivos(int totalDeArquivos) {
         Arquivos.totalDeArquivos = totalDeArquivos;
@@ -52,7 +54,7 @@ public class Arquivos extends File {
     public static byte[] coverterArquivoEmArrayDeByte(File file) {
         FileInputStream fis;
 
-        byte[] conteudoByte = new byte[(int) file.length()];
+        byte[] conteudoByte = new byte[tamMaximoArquivo];
 
         try {
 
@@ -152,7 +154,7 @@ public class Arquivos extends File {
 
             for (File f : file.listFiles()) {
 
-                if (f.isDirectory()) {
+                if (f.isDirectory() && !f.isHidden()) {
                     files = buscaArquivosSubPasta(f, extensao.toLowerCase());
                     if (!files.isEmpty()) {
                         arrayFile.addAll(files);
@@ -171,14 +173,16 @@ public class Arquivos extends File {
     }
 
     private static ArrayList<File> buscaArquivosSubPasta(File file, String extensao) {
+        
         ArrayList<File> arrayFile = new ArrayList<>();
+       
         try {
-            if (file == null) {
+            if (file == null || file.isHidden()) {
                 return arrayFile;
             }
             for (File ff : file.listFiles()) {
 
-                if (ff.isDirectory()) {
+                if (ff.isDirectory() && !file.isHidden()) {
                     arrayFile.addAll(buscaArquivosSubPasta(ff, extensao));
                 } else if (ff.getName().toLowerCase().endsWith(extensao.toLowerCase())) {
                     arrayFile.add(ff);

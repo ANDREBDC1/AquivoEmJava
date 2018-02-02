@@ -40,16 +40,21 @@ public class TesteClases {
 //         Arquivos.moverArquivos(fileBusca, FileDestino, extensao);
          
         // buscarAquivoPelaExtensao();
-        //usarBuscaDeArquivo();
+       // usarBuscaDeArquivo();
         
         //salvarArquivo();
-         //salvarArquivo();
-         criarPasta();
+        salvarArquivo();
+         //criarPasta();
+    }
+    
+    public static void testeBuscaArquivo(){
+       
     }
     
     public static void salvarArquivo(){
         
-        String caminho = "C:\\Teste/teste.avi";
+        String caminho = "C:\\Teste";
+        Arquivos.copiarArquivoTipoVideo(new Arquivos(caminho),new File("C:\\destino"));
        
     } 
     
@@ -57,7 +62,7 @@ public class TesteClases {
         
     }
     public static void criarPasta(){
-        Arquivos.vreficarDiretorioExistente(new File("C:\\destino\\teste"));
+       
     }
     
 //    public static void salvarArquivo(){
@@ -77,9 +82,9 @@ public class TesteClases {
     }
     
     public static void usarBuscaDeArquivo(){
-        File file = new File("C:\\Teste");
-        for (File f : file.listFiles()) {
-
+        File file = new File("C:\\Users\\Andre\\Documents");
+        for (File f : file.listFiles()) {            
+            System.out.println("\nNome do arquivo: " + f.getName()); 
         }
         
          System.out.println("--------------------------------------------");
