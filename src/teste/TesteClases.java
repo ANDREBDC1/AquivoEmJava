@@ -48,6 +48,11 @@ public class TesteClases {
          //criarPasta();
     }
     
+    public static void testaEstecoes(){
+        
+        
+    }
+    
     public static void testeBuscaArquivo(){
        
 
